@@ -195,10 +195,15 @@ const elements = {
     progressFill: document.getElementById('progressFill'),
     currentTime: document.getElementById('currentTime'),
     totalTime: document.getElementById('totalTime'),
+    volumeIcon: document.getElementById('volumeIcon'), // Novo elemento para o ícone de volume
+    volumeSlider: document.getElementById('volumeSlider'), // Novo elemento para o slider de volume
     
     // Theme toggle
     themeToggle: document.getElementById('themeToggle')
 };
+
+// Cache para SVGs
+const svgCache = {};
 
 // Função auxiliar para obter valores de variáveis CSS
 function getCssVar(varName) {
@@ -213,20 +218,62 @@ function getPlaceholderUrl(width, height, text) {
     return `https://placehold.co/${width}x${height}/${bgColor}/${textColor}?text=${text}`;
 }
 
+// Função para carregar e injetar SVGs
+async function loadAndInjectSvg(element, iconName) {
+    if (!element) return; // Safeguard
+
+    if (svgCache[iconName]) {
+        element.innerHTML = svgCache[iconName];
+        return;
+    }
+
+    try {
+        const response = await fetch(`assets/ui/${iconName}.svg`);
+        if (!response.ok) {
+            console.error(`Erro ao carregar SVG: assets/ui/${iconName}.svg - Status: ${response.status}`);
+            // Fallback: pode-se inserir um SVG de erro genérico aqui
+            element.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-error"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`; // Ícone de erro
+            return;
+        }
+        const svgContent = await response.text();
+        svgCache[iconName] = svgContent;
+        element.innerHTML = svgContent;
+    } catch (error) {
+        console.error(`Falha ao carregar SVG para ${iconName}:`, error);
+        element.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-alert"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`; // Ícone de alerta
+    }
+}
+
 // Inicialização quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', () => {
-    initializeFeatherIcons();
     initializeTheme();
     setupEventListeners();
     showArtists();
+
+    // Carrega os ícones iniciais para o logo, tema e botões de navegação
+    loadAndInjectSvg(document.getElementById('logoIcon'), 'music');
+    updateThemeIcon(localStorage.getItem('databeat-theme') || 'dark'); // Carrega o ícone inicial do tema
+    if (document.getElementById('backToArtistsIcon')) {
+        loadAndInjectSvg(document.getElementById('backToArtistsIcon'), 'arrow-left');
+    }
+    if (document.getElementById('backToAlbumsIcon')) {
+        loadAndInjectSvg(document.getElementById('backToAlbumsIcon'), 'arrow-left');
+    }
+    if (elements.prevIcon) {
+        loadAndInjectSvg(elements.prevIcon, 'skip-back');
+    }
+    if (elements.nextIcon) {
+        loadAndInjectSvg(elements.nextIcon, 'skip-forward');
+    }
+    // Inicializa o ícone de volume e o slider
+    updateVolumeIcon();
+    // Garante que o slider de volume é configurado apenas se existir
+    if (elements.volumeSlider) {
+        elements.volumeSlider.value = localStorage.getItem('databeat-volume') * 100 || 100;
+        elements.audioElement.volume = elements.volumeSlider.value / 100;
+    }
 });
 
-// Inicializa e substitui os ícones Feather
-function initializeFeatherIcons() {
-    if (typeof feather !== 'undefined') {
-        feather.replace();
-    }
-}
 
 // Inicializa o tema da aplicação (claro ou escuro)
 function initializeTheme() {
@@ -239,10 +286,8 @@ function initializeTheme() {
 function updateThemeIcon(theme) {
     const icon = elements.themeToggle.querySelector('i');
     if (icon) {
-        // Se o tema que está sendo ATUALIZADO é 'dark', mostra o sol (para mudar para light)
-        // Se o tema que está sendo ATUALIZADO é 'light', mostra a lua (para mudar para dark)
-        icon.setAttribute('data-feather', theme === 'dark' ? 'sun' : 'moon');
-        initializeFeatherIcons(); // Substitui o ícone recém-adicionado
+        const iconName = theme === 'dark' ? 'sun' : 'moon';
+        loadAndInjectSvg(icon, iconName);
     }
 }
 
@@ -252,7 +297,6 @@ function setupEventListeners() {
     if (elements.backToArtists) {
         elements.backToArtists.addEventListener('click', showArtists);
     }
-    // Adicionado verificação para currentArtist antes de adicionar o event listener
     if (elements.backToAlbums) { 
         elements.backToAlbums.addEventListener('click', () => showAlbums(currentArtist ? currentArtist.id : null));
     }
@@ -281,8 +325,18 @@ function setupEventListeners() {
     if (elements.progressBar) {
         elements.progressBar.addEventListener('click', seekTo);
     }
+
+    // Controlo de Volume
+    if (elements.volumeSlider) {
+        elements.volumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value / 100;
+            elements.audioElement.volume = volume;
+            localStorage.setItem('databeat-volume', volume);
+            updateVolumeIcon(volume);
+        });
+    }
     
-    // Audio element events
+    // Eventos do elemento de áudio
     if (elements.audioElement) {
         elements.audioElement.addEventListener('loadedmetadata', updateDuration);
         elements.audioElement.addEventListener('timeupdate', updateProgress);
@@ -429,15 +483,15 @@ function showTracks(artistId, albumId) {
     elements.albumArtist.textContent = artist.name;
     
     // Preenche a currentPlaylist e shuffledPlaylist
-    currentPlaylist = album.tracks.map((track, index) => ({
+    originalPlaylist = album.tracks.map((track, index) => ({ // Armazena a playlist original
         ...track,
         artist: artist.name,
         album: album.name,
         cover: album.cover,
-        index
+        index // Índice na playlist original
     }));
-    // Cria uma cópia embaralhada da playlist para o modo aleatório
-    shuffledPlaylist = [...currentPlaylist].sort(() => Math.random() - 0.5);
+    currentPlaylist = [...originalPlaylist]; // Começa com a playlist original
+    shuffledPlaylist = [...originalPlaylist].sort(() => Math.random() - 0.5);
 
     // Cria a lista de faixas
     const tracksHTML = currentPlaylist.map((track, index) => `
@@ -448,14 +502,19 @@ function showTracks(artistId, albumId) {
                 <div class="track-duration">${track.duration}</div>
             </div>
             <button class="track-play-btn" onclick="event.stopPropagation(); playTrack(${index})">
-                <i data-feather="${(index === currentTrackIndex && isPlaying && currentTrack && currentTrack.album === currentAlbum.name) ? 'pause' : 'play'}"></i>
+                <i class="track-play-icon" data-icon-type="${(index === currentTrackIndex && isPlaying && currentTrack && currentTrack.album === currentAlbum.name) ? 'pause' : 'play'}"></i>
             </button>
         </div>
     `).join('');
     
     elements.tracksContainer.innerHTML = tracksHTML;
     
-    initializeFeatherIcons(); // Re-renderiza ícones após adicionar novas faixas
+    // Carrega os ícones nos botões da lista de faixas
+    document.querySelectorAll('.track-play-btn .track-play-icon').forEach(iconElement => {
+        const iconType = iconElement.getAttribute('data-icon-type');
+        loadAndInjectSvg(iconElement, iconType);
+    });
+
     updateTrackListUI(); // Atualiza o estado da lista de faixas
     updateAlbumPlayButton(); // Garante que o botão de play/pause do álbum esteja atualizado
     updateShuffleButton(); // Garante que o botão de aleatório esteja atualizado
@@ -465,20 +524,55 @@ function showTracks(artistId, albumId) {
 function toggleShuffle() {
     isShuffling = !isShuffling;
     updateShuffleButton(); // Atualiza o estilo do botão de aleatório
-    // Se o modo aleatório for ativado enquanto uma música está a tocar,
-    // poderíamos reordenar a playlist e ajustar o currentTrackIndex.
-    // Para simplicidade, vamos apenas aplicar a ordem para as próximas músicas.
+    
+    // Se a música está a tocar e o modo aleatório foi ativado/desativado,
+    // reinicia a faixa atual na nova ordem/desordem da playlist.
+    if (isPlaying && currentTrack) {
+        // Encontra o índice da faixa atual na playlist a ser usada (embaralhada ou original)
+        const playlistToUse = isShuffling ? shuffledPlaylist : originalPlaylist;
+        const newIndex = playlistToUse.findIndex(t => t.id === currentTrack.id && t.album === currentTrack.album);
+        if (newIndex !== -1) {
+            currentTrackIndex = newIndex;
+        } else {
+            // Se a faixa não for encontrada (o que não deveria acontecer),
+            // podemos optar por parar a reprodução ou começar do início da nova playlist.
+            currentTrackIndex = 0; // fallback
+        }
+        // Recarrega a faixa para aplicar a nova ordem da playlist
+        playTrack(currentTrackIndex);
+    }
 }
 
 // Atualiza o estilo do botão de aleatório (ativa/desativa)
 function updateShuffleButton() {
-    if (elements.shuffleBtn) { // Adicionado verificação de nulidade
+    if (elements.shuffleBtn) { 
         if (isShuffling) {
             elements.shuffleBtn.classList.add('active');
         } else {
             elements.shuffleBtn.classList.remove('active');
         }
+        // Carrega o ícone para o botão de shuffle
+        if (elements.shuffleBtn.querySelector('i')) { // Ensure the icon element exists
+            loadAndInjectSvg(elements.shuffleBtn.querySelector('i'), 'shuffle'); 
+        }
     }
+}
+
+// Atualiza o ícone de volume com base no nível
+function updateVolumeIcon(volume = elements.audioElement.volume) {
+    const iconElement = elements.volumeIcon;
+    if (!iconElement) return;
+
+    let iconName = 'volume-2'; // Default para volume médio
+
+    if (volume === 0) {
+        iconName = 'volume-x'; // Mute
+    } else if (volume < 0.5) {
+        iconName = 'volume-1'; // Baixo
+    }
+    // Para volume > 0.5, permanece 'volume-2' (alto)
+    
+    loadAndInjectSvg(iconElement, iconName);
 }
 
 // Funções do player de áudio
@@ -523,8 +617,8 @@ function togglePlayAllAlbum() {
 
     // Verifica se a música atual pertence ao álbum atual
     const currentTrackBelongsToAlbum = currentTrack && currentAlbum && 
-                                       currentTrack.album === currentAlbum.name && 
-                                       currentTrack.artist === currentArtist.name;
+                                               currentTrack.album === currentAlbum.name && 
+                                               currentTrack.artist === currentArtist.name;
 
     if (currentTrackBelongsToAlbum && elements.audioElement.paused === false) {
         // Se a música do álbum está a tocar, pausa
@@ -573,8 +667,7 @@ function togglePlayPause() {
 function updatePlayPauseButton() {
     const icon = elements.playPauseBtn.querySelector('i');
     if (icon) {
-        icon.setAttribute('data-feather', isPlaying ? 'pause' : 'play');
-        initializeFeatherIcons(); // Re-renderiza o ícone
+        loadAndInjectSvg(icon, isPlaying ? 'pause' : 'play');
     }
 }
 
@@ -583,16 +676,15 @@ function updateAlbumPlayButton() {
     const icon = elements.playAllBtn.querySelector('i');
     // Verifica se a música atual pertence ao álbum que está a ser visualizado
     const currentTrackBelongsToAlbum = currentTrack && currentAlbum && 
-                                       currentTrack.album === currentAlbum.name && 
-                                       currentTrack.artist === currentArtist.name;
+                                               currentTrack.album === currentAlbum.name && 
+                                               currentTrack.artist === currentArtist.name;
 
     if (icon) {
         if (currentTrackBelongsToAlbum && isPlaying) {
-            icon.setAttribute('data-feather', 'pause');
+            loadAndInjectSvg(icon, 'pause');
         } else {
-            icon.setAttribute('data-feather', 'play');
+            loadAndInjectSvg(icon, 'play');
         }
-        initializeFeatherIcons();
     }
 }
 
@@ -601,12 +693,8 @@ function updateTrackListUI() {
     const trackItems = document.querySelectorAll('.track-item');
     trackItems.forEach((item, index) => {
         const playBtnIcon = item.querySelector('.track-play-btn i');
-        // A playlist usada para exibir o track-item é sempre currentPlaylist (não embaralhada)
-        // O currentTrackIndex refere-se à posição na playlist 'ativa' (embaralhada ou não)
         const activePlaylist = isShuffling ? shuffledPlaylist : currentPlaylist;
 
-        // Encontra a faixa atual na playlist original para destacar
-        // Verifica se a faixa da lista é a mesma que a faixa ativa
         const isCurrentTrackInDisplayList = activePlaylist[currentTrackIndex] && 
                                             (activePlaylist[currentTrackIndex].id === currentPlaylist[index].id &&
                                             activePlaylist[currentTrackIndex].album === currentPlaylist[index].album &&
@@ -616,16 +704,15 @@ function updateTrackListUI() {
         if (isCurrentTrackInDisplayList) {
             item.classList.add('playing');
             if (playBtnIcon) {
-                playBtnIcon.setAttribute('data-feather', isPlaying ? 'pause' : 'play');
+                loadAndInjectSvg(playBtnIcon, isPlaying ? 'pause' : 'play');
             }
         } else {
             item.classList.remove('playing');
             if (playBtnIcon) {
-                playBtnIcon.setAttribute('data-feather', 'play');
+                loadAndInjectSvg(playBtnIcon, 'play');
             }
         }
     });
-    initializeFeatherIcons(); // Re-renderiza todos os ícones da lista
 }
 
 // Atualiza a duração total da faixa no player

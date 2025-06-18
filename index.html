@@ -12,11 +12,11 @@
         <!-- Header da aplicação -->
         <header class="header">
             <div class="logo">
-                <i data-feather="music"></i>
+                <i id="logoIcon"></i>
                 <h1>DataBeat</h1>
             </div>
             <button class="theme-toggle" id="themeToggle">
-                <i data-feather="moon"></i>
+                <i id="themeToggleIcon"></i>
             </button>
         </header>
 
@@ -36,7 +36,7 @@
             <!-- Seção de Álbuns (escondida por padrão) -->
             <section class="albums-grid hidden" id="albumsView">
                 <div class="back-button" id="backToArtists">
-                    <i data-feather="arrow-left"></i>
+                    <i id="backToArtistsIcon"></i>
                     <span>Voltar aos Artistas</span>
                 </div>
                 <h2 class="section-title" id="albumsTitle"></h2>
@@ -46,20 +46,20 @@
             <!-- Seção de Faixas (escondida por padrão) -->
             <section class="tracks-list hidden" id="tracksView">
                 <div class="back-button" id="backToAlbums">
-                    <i data-feather="arrow-left"></i>
+                    <i id="backToAlbumsIcon"></i>
                     <span>Voltar aos Álbuns</span>
                 </div>
                 <div class="album-header" id="albumHeader">
                     <img class="album-cover-large" id="albumCoverLarge" src="" alt="Album Cover">
                     <div class="album-info">
-                        <h2></h2>
+                        <h2 id="albumTitleDisplay"></h2> <!-- Adicionado ID para o título do álbum -->
                         <p id="albumArtist"></p>
                         <div class="album-controls">
                             <button class="play-all-btn" id="playAllBtn">
-                                <i data-feather="play"></i>
+                                <i id="playAllIcon"></i>
                             </button>
                             <button class="shuffle-btn" id="shuffleBtn">
-                                <i data-feather="shuffle"></i>
+                                <i id="shuffleIcon"></i>
                             </button>
                         </div>
                     </div>
@@ -78,11 +78,11 @@
                 </div>
             </div>
             <div class="player-controls">
-                <button class="player-btn" id="prevBtn"><i data-feather="skip-back"></i></button>
+                <button class="player-btn" id="prevBtn"><i id="prevIcon"></i></button>
                 <button class="player-btn play-pause-btn" id="playPauseBtn">
-                    <i data-feather="play"></i>
+                    <i id="playPauseIcon"></i>
                 </button>
-                <button class="player-btn" id="nextBtn"><i data-feather="skip-forward"></i></button>
+                <button class="player-btn" id="nextBtn"><i id="nextIcon"></i></button>
             </div>
             <div class="player-progress">
                 <span class="time" id="currentTime">0:00</span>
@@ -90,6 +90,10 @@
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <span class="time" id="totalTime">0:00</span>
+            </div>
+            <div class="volume-control">
+                <i id="volumeIcon"></i>
+                <input type="range" id="volumeSlider" min="0" max="100" value="100">
             </div>
             <audio id="audioElement"></audio>
         </div>
