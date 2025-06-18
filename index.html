@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataBeat - Seu Player de Música</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i data-feather="music"></i>
+                <h1>DataBeat</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i data-feather="moon"></i>
+            </button>
+        </header>
+
+        <!-- Navigation Breadcrumb -->
+        <nav class="breadcrumb" id="breadcrumb">
+            <span class="breadcrumb-item active" data-level="artists">Artistas</span>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Artists View -->
+            <section class="artists-grid" id="artistsView">
+                <h2 class="section-title">Seus Artistas</h2>
+                <div class="grid" id="artistsGrid"></div>
+            </section>
+
+            <!-- Albums View -->
+            <section class="albums-grid hidden" id="albumsView">
+                <div class="back-button" id="backToArtists">
+                    <i data-feather="arrow-left"></i>
+                    <span>Voltar aos Artistas</span>
+                </div>
+                <h2 class="section-title" id="albumsTitle"></h2>
+                <div class="grid" id="albumsGrid"></div>
+            </section>
+
+            <!-- Tracks View -->
+            <section class="tracks-list hidden" id="tracksView">
+                <div class="back-button" id="backToAlbums">
+                    <i data-feather="arrow-left"></i>
+                    <span>Voltar aos Álbuns</span>
+                </div>
+                <div class="album-header" id="albumHeader">
+                    <img class="album-cover-large" id="albumCoverLarge" src="" alt="Album Cover">
+                    <div class="album-info">
+                        <h2 id="albumTitle"></h2>
+                        <p id="albumArtist"></p>
+                        <div class="album-controls">
+                            <button class="play-all-btn" id="playAllBtn">
+                                <i data-feather="play"></i>
+                                <span>Tocar Todas</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tracks-container" id="tracksContainer"></div>
+            </section>
+        </main>
+
+        <!-- Audio Player -->
+        <div class="audio-player hidden" id="audioPlayer">
+            <div class="player-track-info">
+                <img class="player-cover" id="playerCover" src="" alt="Track Cover">
+                <div class="player-text">
+                    <span class="player-title" id="playerTitle">Sem música</span>
+                    <span class="player-artist" id="playerArtist">Selecione uma faixa</span>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="player-btn" id="prevBtn"><i data-feather="skip-back"></i></button>
+                <button class="player-btn play-pause-btn" id="playPauseBtn">
+                    <i data-feather="play"></i>
+                </button>
+                <button class="player-btn" id="nextBtn"><i data-feather="skip-forward"></i></button>
+            </div>
+            <div class="player-progress">
+                <span class="time" id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="time" id="totalTime">0:00</span>
+            </div>
+            <audio id="audioElement"></audio>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
