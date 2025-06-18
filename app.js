@@ -68,7 +68,7 @@ const musicData = {
                     id: 'reload',
                     name: 'Reload',
                     year: '2020',
-                    cover: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/albums/Metallica/Reload/reload.jpg',
+                    cover: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/albums/Metallica/Reload/Reload.jpg',
                     tracks: [
                         { id: 1, title: 'Attitude', duration: '5:16', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Metallica/Reload/Attitude.mp3' },
                         { id: 2, title: 'Bad Seed', duration: '4:05', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Metallica/Reload/Bad Seed.mp3' },
@@ -88,35 +88,60 @@ const musicData = {
             ]
         },
         {
-      id: 'twenty-one-pilots',
-      name: 'twenty one pilots',
-      image: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/artists/twenty-one-pilots/twenty-one-pilots.jpg',
-      albums: [
-        {
-          id: 'blurryface',
-          name: 'blurryface',
-          year: '',
-          cover: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/albums/twenty-one-pilots/blurryface/blurryface.jpg',
-          tracks: [
-            { id: 1, title: 'Doubt', duration: '3:11', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Doubt.mp3' },
-            { id: 2, title: 'Fairly Local', duration: '3:27', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Fairly Local.mp3' },
-            { id: 3, title: 'Goner', duration: '3:56', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Goner.mp3' },
-            { id: 4, title: 'Heavydirtysoul', duration: '3:54', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Heavydirtysoul.mp3' },
-            { id: 5, title: 'Hometown', duration: '3:54', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Hometown.mp3' },
-            { id: 6, title: 'Lane Boy', duration: '4:13', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Lane Boy.mp3' },
-            { id: 7, title: 'Message Man', duration: '4:00', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Message Man.mp3' },
-            { id: 8, title: 'Not Today', duration: '3:58', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Not Today.mp3' },
-            { id: 9, title: 'Polarize', duration: '3:46', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Polarize.mp3' },
-            { id: 10, title: 'Ride', duration: '3:34', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Ride.mp3' },
-            { id: 11, title: 'Stressed Out', duration: '3:22', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Stressed Out.mp3' },
-            { id: 12, title: 'Tear in My Heart', duration: '3:08', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Tear in My Heart.mp3' },
-            { id: 13, title: 'The Judge', duration: '4:57', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/The Judge.mp3' },
-            { id: 14, title: 'We Don t Believe What s on TV', duration: '2:57', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/We Don t Believe What s on TV.mp3' },
-          ]
+            id: 'twenty-one-pilots',
+            name: 'twenty one pilots',
+            image: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/artists/twenty one pilots/twenty one pilots.jpg',
+            albums: [
+                {
+                    id: 'blurryface',
+                    name: 'blurryface',
+                    year: '2017',
+                    cover: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/albums/twenty one pilots/blurryface/blurryface.jpg',
+                    tracks: [
+                        { id: 1, title: 'Doubt', duration: '3:11', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Doubt.mp3' },
+                        { id: 2, title: 'Fairly Local', duration: '3:27', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Fairly Local.mp3' },
+                        { id: 3, title: 'Goner', duration: '3:56', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Goner.mp3' },
+                        { id: 4, title: 'Heavydirtysoul', duration: '3:54', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Heavydirtysoul.mp3' },
+                        { id: 5, title: 'Hometown', duration: '3:54', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Hometown.mp3' },
+                        { id: 6, title: 'Lane Boy', duration: '4:13', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Lane Boy.mp3' },
+                        { id: 7, title: 'Message Man', duration: '4:00', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Message Man.mp3' },
+                        { id: 8, title: 'Not Today', duration: '3:58', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Not Today.mp3' },
+                        { id: 9, title: 'Polarize', duration: '3:46', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Polarize.mp3' },
+                        { id: 10, title: 'Ride', duration: '3:34', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Ride.mp3' },
+                        { id: 11, title: 'Stressed Out', duration: '3:22', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Stressed Out.mp3' },
+                        { id: 12, title: 'Tear in My Heart', duration: '3:08', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/Tear in My Heart.mp3' },
+                        { id: 13, title: 'The Judge', duration: '4:57', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/The Judge.mp3' },
+                        { id: 14, title: 'We Don t Believe What s on TV', duration: '2:57', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/twenty one pilots/blurryface/We Don t Believe What s on TV.mp3' },
+                    ]
+                },
+            ]
         },
-      ]
-    },
-  ]
+        {
+            id: 'billie-eilish',
+            name: 'Billie Eilish',
+            image: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/artists/Billie Eilish/Billie Eilish.jpg',
+            albums: [
+                {
+                    id: 'hit-me-hard-and-soft',
+                    name: 'hit me hard and soft',
+                    year: '2024', // Adicionei um ano para consistência
+                    cover: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/assets/albums/Billie Eilish/hit me hard and soft/hit me hard and soft.jpg',
+                    tracks: [
+                        { id: 1, title: 'Billie Eilish - BIRDS OF A FEATHER (Official Music Video)', duration: '3:50', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - BIRDS OF A FEATHER (Official Music Video).mp3' },
+                        { id: 2, title: 'Billie Eilish - BITTERSUITE (BILLIE BY FINNEAS)', duration: '4:58', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - BITTERSUITE (BILLIE BY FINNEAS).mp3' },
+                        { id: 3, title: 'Billie Eilish - BLUE (BILLIE BY FINNEAS)', duration: '5:45', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - BLUE (BILLIE BY FINNEAS).mp3' },
+                        { id: 4, title: 'Billie Eilish - CHIHIRO (Official Music Video)', duration: '5:23', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - CHIHIRO (Official Music Video).mp3' },
+                        { id: 5, title: 'Billie Eilish - LUNCH (Official Music Video)', duration: '3:22', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - LUNCH (Official Music Video).mp3' },
+                        { id: 6, title: 'Billie Eilish - L’AMOUR DE MA VIE (BILLIE BY FINNEAS)', duration: '5:33', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - L’AMOUR DE MA VIE (BILLIE BY FINNEAS).mp3' },
+                        { id: 7, title: 'Billie Eilish - SKINNY (BILLIE BY FINNEAS)', duration: '3:39', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - SKINNY (BILLIE BY FINNEAS).mp3' },
+                        { id: 8, title: 'Billie Eilish - THE DINER (BILLIE BY FINNEAS)', duration: '3:06', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - THE DINER (BILLIE BY FINNEAS).mp3' },
+                        { id: 9, title: 'Billie Eilish - THE GREATEST (BILLIE BY FINNEAS)', duration: '4:45', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - THE GREATEST (BILLIE BY FINNEAS).mp3' },
+                        { id: 10, title: 'Billie Eilish - WILDFLOWER (BILLIE BY FINNEAS)', duration: '4:21', url: 'https://cdn.jsdelivr.net/gh/k4zzt/databeat@main/musics/Billie Eilish/hit me hard and soft/Billie Eilish - WILDFLOWER (BILLIE BY FINNEAS).mp3' },
+                    ]
+                },
+            ]
+        },
+    ]
 };
           
 // Estado da aplicação
