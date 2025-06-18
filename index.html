@@ -8,8 +8,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
+     <div class="container">
+        <!-- Header da aplicação -->
         <header class="header">
             <div class="logo">
                 <i data-feather="music"></i>
@@ -20,20 +20,20 @@
             </button>
         </header>
 
-        <!-- Navigation Breadcrumb -->
+        <!-- Navegação Breadcrumb -->
         <nav class="breadcrumb" id="breadcrumb">
             <span class="breadcrumb-item active" data-level="artists">Artistas</span>
         </nav>
 
-        <!-- Main Content -->
+        <!-- Conteúdo Principal -->
         <main class="main-content">
-            <!-- Artists View -->
+            <!-- Seção de Artistas -->
             <section class="artists-grid" id="artistsView">
                 <h2 class="section-title">Seus Artistas</h2>
                 <div class="grid" id="artistsGrid"></div>
             </section>
 
-            <!-- Albums View -->
+            <!-- Seção de Álbuns (escondida por padrão) -->
             <section class="albums-grid hidden" id="albumsView">
                 <div class="back-button" id="backToArtists">
                     <i data-feather="arrow-left"></i>
@@ -43,7 +43,7 @@
                 <div class="grid" id="albumsGrid"></div>
             </section>
 
-            <!-- Tracks View -->
+            <!-- Seção de Faixas (escondida por padrão) -->
             <section class="tracks-list hidden" id="tracksView">
                 <div class="back-button" id="backToAlbums">
                     <i data-feather="arrow-left"></i>
@@ -52,12 +52,14 @@
                 <div class="album-header" id="albumHeader">
                     <img class="album-cover-large" id="albumCoverLarge" src="" alt="Album Cover">
                     <div class="album-info">
-                        <h2 id="albumTitle"></h2>
+                        <h2></h2>
                         <p id="albumArtist"></p>
                         <div class="album-controls">
                             <button class="play-all-btn" id="playAllBtn">
                                 <i data-feather="play"></i>
-                                <span>Tocar Todas</span>
+                            </button>
+                            <button class="shuffle-btn" id="shuffleBtn">
+                                <i data-feather="shuffle"></i>
                             </button>
                         </div>
                     </div>
@@ -66,7 +68,7 @@
             </section>
         </main>
 
-        <!-- Audio Player -->
+        <!-- Player de Áudio Fixo (escondido por padrão) -->
         <div class="audio-player hidden" id="audioPlayer">
             <div class="player-track-info">
                 <img class="player-cover" id="playerCover" src="" alt="Track Cover">
